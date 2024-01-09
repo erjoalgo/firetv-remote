@@ -90,6 +90,11 @@ html
                     $("#log").append("MuteToggle button pressed.\n");
                 });
             });
+            $("#powerswitchbutton").click(function() {
+                $.post("", { keypadID:"powerswitch" }, function(data) {
+                    $("#log").append("Powerswitch button pressed.\n");
+                });
+            });
             $("#menubutton").click(function() {
                 $.post("", { keypadID:"menu" }, function(data) {
                     $("#log").append("Menu button pressed.\n");

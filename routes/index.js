@@ -75,6 +75,8 @@ router.post('/', function(req, res, next) {
             msg = sendKeyPress(25, "Vol Down press");
         } else if (kpd == "volup") {
             msg = sendKeyPress(24, "Vol Up press");
+        } else if (kpd == "powerswitch") {
+            msg = sendKeyPress(26, "Power Switch press");
         } else if (kpd == "menu") {
             msg = sendKeyPress(1, "Menu button");
         } else if (kpd == "last") {
