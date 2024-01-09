@@ -28,8 +28,19 @@ function puts(error,stdout,stderr) {
 function adbPath () { 
     return (process.platform == "linux") ? "./platform-tools/ubuntu/adb" : "./platform-tools/adb";
 }
-router.post('/', function(req, res, next) {
 
+function sendKeyPress ( keyCode, keyName, longpress ) {
+    if (!deviceip) {
+        throw new Error("missing device ip!");
+    }
+    const longpressOpt = longpress? "--longpress" : "";
+    const cmd = `${adbPath()} -s ${deviceip} shell input keyevent ${longpressOpt} ${keyCode}`;
+    exec(cmd, puts);
+    return `${keyName} (${keyCode}) pressed.`;
+}
+
+
+router.post('/', function(req, res, next) {
     if (req.body.deviceip != null) {
         console.log("Connecting...");
         deviceip = req.body.deviceip;
@@ -41,44 +52,33 @@ router.post('/', function(req, res, next) {
         res.send("Successfully disconnected.");
     } else if (req.body.keypadID != null) {
         var kpd = req.body.keypadID;
-
+        var msg;
         if (kpd == "up") {
-            exec(adbPath + " shell input keyevent 19", puts);
-            res.send("Up arrow pressed.");
+            msg = sendKeyPress(19, "Up arrow");
         } else if (kpd == "down") {
-            exec(adbPath + " shell input keyevent 20", puts);
-            res.send("Down arrow pressed.");
+            msg = sendKeyPress(20, "Down arrow");
         } else if (kpd == "left") {
-            exec(adbPath + " shell input keyevent 21", puts);
-            res.send("Left arrow pressed.");
+            msg = sendKeyPress(21, "Left arrow");
         } else if (kpd == "right") {
-            exec(adbPath + " shell input keyevent 22", puts);
-            res.send("Right arrow pressed.");
+            msg = sendKeyPress(22, "Right arrow");
         } else if (kpd == "select") {
-            exec(adbPath + " shell input keyevent 66", puts);
-            res.send("Select button pressed.");
+            msg = sendKeyPress(23, "Select button");
         } else if (kpd == "back") {
-            exec(adbPath + " shell input keyevent 4", puts);
-            res.send("Back button pressed.");
+            msg = sendKeyPress(22, "Back button");
         } else if (kpd == "home") {
-            exec(adbPath + " shell input keyevent 3", puts);
-            res.send("Home button pressed.");
+            msg = sendKeyPress(3, "Home button");
         } else if (kpd == "menu") {
-            exec(adbPath + " shell input keyevent 1", puts);
-            res.send("Menu button pressed.");
+            msg = sendKeyPress(1, "Menu button");
         } else if (kpd == "last") {
-            exec(adbPath + " shell input keyevent 21", puts);
-            res.send("Last button pressed.");
+            msg = sendKeyPress(21, "Last button");
         } else if (kpd == "playtoggle") {
-            exec(adbPath + " shell input keyevent 66", puts);
-            res.send("Play button pressed.");
+            msg = sendKeyPress(66, "Play button");
         } else if (kpd == "next") {
-            exec(adbPath + " shell input keyevent 22", puts);
-            res.send("Right button pressed.");
+            msg = sendKeyPress(22, "Right button");
         } else {
-            exec(adbPath + " shell input keyevent " + kpd, puts);
-            res.send(kpd + " pressed.");
+            msg = sendKeyPress(kpd, kpd);
         }
+        res.send(msg);
     } else if (req.body.rawcommand != null) {
         exec(adbPath() + " shell " + req.body.rawcommand, puts);
         res.send("Custom command sent.");
