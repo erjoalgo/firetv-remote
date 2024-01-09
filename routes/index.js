@@ -25,9 +25,6 @@ function puts(error,stdout,stderr) {
       console.error(`stderr: ${stderr}`);
     }
 }
-function adbPath () { 
-    return (process.platform == "linux") ? "./platform-tools/ubuntu/adb" : "./platform-tools/adb";
-}
 
 function sendKeyPress ( keyCode, keyName, longpress ) {
     if (!deviceip) {
@@ -39,6 +36,9 @@ function sendKeyPress ( keyCode, keyName, longpress ) {
     return `${keyName} (${keyCode}) pressed.`;
 }
 
+function adbPath (  ) {
+    return "/usr/bin/adb";
+}
 
 router.post('/', function(req, res, next) {
     if (req.body.deviceip != null) {
