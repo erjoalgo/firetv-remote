@@ -25,17 +25,19 @@ function puts(error,stdout,stderr) {
       console.error(`stderr: ${stderr}`);
     }
 }
+function adbPath () { 
+    return (process.platform == "linux") ? "./platform-tools/ubuntu/adb" : "./platform-tools/adb";
+}
 router.post('/', function(req, res, next) {
-    var adbPath = (process.platform == "linux") ? "./platform-tools/ubuntu/adb" : "./platform-tools/adb";
 
     if (req.body.deviceip != null) {
         console.log("Connecting...");
         deviceip = req.body.deviceip;
-        exec(adbPath + " connect " + deviceip, puts);
+        exec(adbPath() + " connect " + deviceip, puts);
         res.send("Successfully connected.");
     } else if (req.body.disconnect) {
         console.log("Disconnecting...");
-        exec(adbPath + " disconnect", puts);
+        exec(adbPath() + " disconnect", puts);
         res.send("Successfully disconnected.");
     } else if (req.body.keypadID != null) {
         var kpd = req.body.keypadID;
@@ -78,7 +80,7 @@ router.post('/', function(req, res, next) {
             res.send(kpd + " pressed.");
         }
     } else if (req.body.rawcommand != null) {
-        exec(adbPath + " shell " + req.body.rawcommand, puts);
+        exec(adbPath() + " shell " + req.body.rawcommand, puts);
         res.send("Custom command sent.");
     }
 });
