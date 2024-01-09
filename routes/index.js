@@ -14,8 +14,18 @@ router.get('/remote-control', function(req, res, next) {
     res.render('remote-control');
 });
 
+function puts(error,stdout,stderr) {
+    if (error) {
+        console.error(error);
+    }
+    if (stdout) {
+      console.log(`stdout: ${stdout}`);
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+    }
+}
 router.post('/', function(req, res, next) {
-    function puts(error,stdout,stderr) { console.log(stdout); }
     var adbPath = (process.platform == "linux") ? "./platform-tools/ubuntu/adb" : "./platform-tools/adb";
 
     if (req.body.deviceip != null) {
