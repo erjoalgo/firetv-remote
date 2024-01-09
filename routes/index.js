@@ -67,6 +67,14 @@ router.post('/', function(req, res, next) {
             msg = sendKeyPress(22, "Back button");
         } else if (kpd == "home") {
             msg = sendKeyPress(3, "Home button");
+        } else if (kpd == "homelong") {
+            msg = sendKeyPress(3, "Home button long press", true);
+        } else if (kpd == "mutetoggle") {
+            msg = sendKeyPress(91, "Mute Toggle press");
+        } else if (kpd == "voldown") {
+            msg = sendKeyPress(25, "Vol Down press");
+        } else if (kpd == "volup") {
+            msg = sendKeyPress(24, "Vol Up press");
         } else if (kpd == "menu") {
             msg = sendKeyPress(1, "Menu button");
         } else if (kpd == "last") {

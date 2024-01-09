@@ -69,6 +69,27 @@ html
                 });
             });
 
+            $("#homelongbutton").click(function() {
+                $.post("", { keypadID:"homelong" }, function(data) {
+                    $("#log").append("Homelong button pressed.\n");
+                });
+            });
+
+            $("#voldownbutton").click(function() {
+                $.post("", { keypadID:"voldown" }, function(data) {
+                    $("#log").append("Vol Down button pressed.\n");
+                });
+            });
+            $("#volupbutton").click(function() {
+                $.post("", { keypadID:"volup" }, function(data) {
+                    $("#log").append("Vol Up button pressed.\n");
+                });
+            });
+            $("#mutetogglebutton").click(function() {
+                $.post("", { keypadID:"mutetoggle" }, function(data) {
+                    $("#log").append("MuteToggle button pressed.\n");
+                });
+            });
             $("#menubutton").click(function() {
                 $.post("", { keypadID:"menu" }, function(data) {
                     $("#log").append("Menu button pressed.\n");
